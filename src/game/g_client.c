@@ -1232,7 +1232,7 @@ void ClientBegin( int clientNum )
   ClientSpawn( ent, NULL, NULL, NULL );
 
   trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " entered the game\n\"", client->pers.netname ) );
-  trap_SendServerCommand( EXEC_APPEND,
+  trap_SendConsoleCommand( EXEC_APPEND,
     va( "exec \"%s.cfg\"\n", client->pers.netname ) );
 
   G_namelog_restore( client );
