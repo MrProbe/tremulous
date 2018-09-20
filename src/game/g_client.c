@@ -692,8 +692,8 @@ static void G_ClientCleanName( const char *in, char *out, int outSize )
       if( len > outSize - 2 )
         break;
 
-      *out++ = '['; 
-      *out++ = '['; 
+      *out++ = '[';
+      *out++ = '[';
       len += 2;
       if( escaped )
         in++;
@@ -829,7 +829,7 @@ char *ClientUserinfoChanged( int clientNum, qboolean forceName )
   {
     trap_SendServerCommand( ent - g_entities,
         "disconnect \"illegal or malformed userinfo\n\"" );
-    trap_DropClient( ent - g_entities, 
+    trap_DropClient( ent - g_entities,
         "dropped: illegal or malformed userinfo");
     return "Illegal or malformed userinfo";
   }
@@ -840,7 +840,7 @@ char *ClientUserinfoChanged( int clientNum, qboolean forceName )
     return "Empty (overflowed) userinfo";
 
   // stickyspec toggle
-  s = Info_ValueForKey( userinfo, "cg_stickySpec" );  
+  s = Info_ValueForKey( userinfo, "cg_stickySpec" );
   client->pers.stickySpec = atoi( s ) != 0;
 
   // set name
@@ -1163,7 +1163,7 @@ const char *ClientConnect( int clientNum, qboolean firstTime )
 
   // don't do the "xxx connected" messages if they were caried over from previous level
   if( firstTime )
-    trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " connected\n\"", 
+    trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " connected\n\"",
                                     client->pers.netname ) );
 
   if( client->pers.admin )
@@ -1171,7 +1171,7 @@ const char *ClientConnect( int clientNum, qboolean firstTime )
 
   // count current clients and rank for scoreboard
   CalculateRanks( );
-  
+
 
   // if this is after !restart keepteams or !restart switchteams, apply said selection
   if ( client->sess.restartTeam != TEAM_NONE )
@@ -1180,7 +1180,7 @@ const char *ClientConnect( int clientNum, qboolean firstTime )
     client->sess.restartTeam = TEAM_NONE;
   }
 
-  
+
   return NULL;
 }
 
@@ -1232,6 +1232,8 @@ void ClientBegin( int clientNum )
   ClientSpawn( ent, NULL, NULL, NULL );
 
   trap_SendServerCommand( -1, va( "print \"%s" S_COLOR_WHITE " entered the game\n\"", client->pers.netname ) );
+  trap_SendServerCommand( EXEC_APPEND,
+    va( "exec \"%s.cfg\"\n", client->pers.netname ) );
 
   G_namelog_restore( client );
 
